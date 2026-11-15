@@ -4,8 +4,8 @@ import path from "path";
 import {FetchingJSONSchemaStore, InputData, JSONSchemaInput, quicktype} from "quicktype-core";
 
 const REMOTE_SOURCE = {
-    ecosystemDataUrl: "https://thunderstore.io/api/experimental/schema/dev/latest/",
-    ecosystemJsonSchemaUrl: "https://thunderstore.io/api/experimental/schema/ecosystem-json-schema/latest/",
+    ecosystemDataUrl: "https://thunderstore.pleco-parore.ts.net/api/experimental/schema/dev/latest/",
+    ecosystemJsonSchemaUrl: "https://thunderstore.pleco-parore.ts.net/api/experimental/schema/ecosystem-json-schema/latest/",
     gameImageBaseUrl: "https://gcdn.thunderstore.io/assets",
 };
 const LOCAL_SOURCE = {

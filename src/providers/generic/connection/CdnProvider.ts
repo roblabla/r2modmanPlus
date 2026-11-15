@@ -57,7 +57,10 @@ export default class CdnProvider {
     }
 
     public static replaceCdnHost(url: string) {
-        return CdnProvider.preferredCdn
+        // Only Thunderstore's own CDNs mirror each other; files from another Thunderstore
+        // instance exist on that instance's host alone.
+        const isOnCdn = getCdns().some((cdn) => cdn.host === new URL(url).host);
+        return CdnProvider.preferredCdn && isOnCdn
             ? replaceHost(url, CdnProvider.preferredCdn)
             : url;
     }

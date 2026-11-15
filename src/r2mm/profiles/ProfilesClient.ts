@@ -2,9 +2,10 @@ import Axios, { AxiosResponse } from 'axios';
 import R2Error from '../../model/errors/R2Error';
 import CdnProvider from '../../providers/generic/connection/CdnProvider';
 import { transformPackageUrl } from '../../providers/cdn/PackageUrlTransformer';
+import GameManager from '../../model/game/GameManager';
 
 const getProfileUrl = (profileImportCode: string): string => {
-    return transformPackageUrl(`https://thunderstore.io/api/experimental/legacyprofile/get/${profileImportCode}/`);
+    return transformPackageUrl(`${GameManager.activeGame.thunderstoreOrigin}/api/experimental/legacyprofile/get/${profileImportCode}/`);
 }
 
 function formatApiError<T>(e: T, genericTitle: string): R2Error | T {
@@ -54,7 +55,7 @@ async function handleApiErrors<I, J>(
 
 function createProfile(payload: string): Promise<AxiosResponse<{ key: string }>> {
     return handleApiErrors(Axios.post(
-        transformPackageUrl("https://thunderstore.io/api/experimental/legacyprofile/create/"),
+        transformPackageUrl(`${GameManager.activeGame.thunderstoreOrigin}/api/experimental/legacyprofile/create/`),
         payload,
         {
             headers: { 'Content-Type': 'application/octet-stream' }

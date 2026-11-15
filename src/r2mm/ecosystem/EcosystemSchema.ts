@@ -26,7 +26,7 @@ type LatestSchemaFetchResult =
     | {kind: "fetched", schema: ThunderstoreEcosystem, lastModified?: string}
     | {kind: "failed"};
 
-const REMOTE_ECOSYSTEM_DATA_URL = "https://thunderstore.io/api/experimental/schema/dev/latest/";
+const REMOTE_ECOSYSTEM_DATA_URL = "https://thunderstore.pleco-parore.ts.net/api/experimental/schema/dev/latest/";
 const LOCAL_ECOSYSTEM_DATA_URL = "/_local/latest.json";
 const LOCAL_HEALTHZ_URL = "/_local/healthz";
 

@@ -84,6 +84,11 @@ export default class Game {
         return this._thunderstoreUrl;
     }
 
+    // The Thunderstore instance hosting this game's community, e.g. "https://thunderstore.io".
+    get thunderstoreOrigin(): string {
+        return new URL(this._thunderstoreUrl).origin;
+    }
+
     get thunderstoreIdentifier(): string {
         return this._thunderstoreIdentifier;
     }
