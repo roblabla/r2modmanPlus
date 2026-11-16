@@ -8,6 +8,7 @@ import { getDeterminedLaunchType } from '../../../utils/LaunchUtils';
 import appWindow from '../../../providers/node/app/app_window';
 import ManagerSettings from '../../../r2mm/manager/ManagerSettings';
 import { LaunchType } from '../../../model/real_enums/launch/LaunchType';
+import { getGameConfigBySettingsIdentifier } from '../../../model/schema/ThunderstoreSchema';
 
 export default class GameInstructionParser {
 
@@ -55,6 +56,10 @@ export default class GameInstructionParser {
 
     private static async bepInExPreloaderPathResolver(game: Game, profile: Profile): Promise<string | R2Error> {
         try {
+            const doorstopTarget = getGameConfigBySettingsIdentifier(game.settingsIdentifier)?.doorstopTargetAssembly;
+            if (doorstopTarget !== undefined) {
+                return await GameInstructionParser.doorstopTargetResolver(game, profile, doorstopTarget);
+            }
             if (["linux"].includes(appWindow.getPlatform().toLowerCase())) {
                 const settings = await ManagerSettings.getSingleton(game);
                 const isProton = await GameInstructionParser.isProton(game);
@@ -73,6 +78,23 @@ export default class GameInstructionParser {
             const err: Error = e as Error;
             return new R2Error("Failed to find preloader dll", err.message, "BepInEx may not be installed correctly. Further help may be required.");
         }
+    }
+
+    private static async doorstopTargetResolver(game: Game, profile: Profile, target: string): Promise<string | R2Error> {
+        const targetPath = profile.joinToProfilePath(target);
+        // No fallback to the stock preloader: the game names this target because it must not start without it.
+        if (!(await FsProvider.instance.exists(targetPath))) {
+            return new R2Error(
+                `Failed to find ${target}`,
+                `${game.displayName} must be started through ${target}, which is not in this profile.`,
+                `Install or enable the mod that provides ${target}, or start ${game.displayName} vanilla.`
+            );
+        }
+        if (["linux"].includes(appWindow.getPlatform().toLowerCase())) {
+            const isProton = await GameInstructionParser.isProton(game);
+            return `${isProton ? 'Z:' : ''}${await FsProvider.instance.realpath(targetPath)}`;
+        }
+        return targetPath;
     }
 
     private static async bepInExCorelibsPathResolver(game: Game, profile: Profile): Promise<string | R2Error> {
