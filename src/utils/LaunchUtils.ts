@@ -14,6 +14,7 @@ import PathResolver from "../r2mm/manager/PathResolver";
 import appWindow from '../providers/node/app/app_window';
 import InteractionProvider from "../providers/ror2/system/InteractionProvider";
 import { TypedEventEmitter } from "./TypedEventEmitter";
+import { removesLinkedFilesOnExit } from "../r2mm/launching/LinkedFilesCleanup";
 
 export enum LaunchMode { VANILLA, MODDED };
 
@@ -50,6 +51,10 @@ export const linkProfileFiles = async (game: Game, profile: ImmutableProfile): P
  * won't fail if the game directory is not configured or the files are locked by a running game.
  */
 export const syncProfileRootFiles = async (game: Game, profile: ImmutableProfile): Promise<void> => {
+    // Such games only get the files for a modded start (see LinkedFilesCleanup).
+    if (removesLinkedFilesOnExit(game)) {
+        return;
+    }
     try {
         await linkProfileFiles(game, profile);
     } catch (e) {

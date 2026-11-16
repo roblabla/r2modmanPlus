@@ -105,6 +105,7 @@ import {
     setGameDirIfUnset,
     throwIfNoGameDir
  } from '../../utils/LaunchUtils';
+import { removeLinkedFilesOnGameExit, STARTUP_TIMEOUT_MS } from '../../r2mm/launching/LinkedFilesCleanup';
 import { ref, computed } from 'vue';
 import { getStore } from '../../providers/generic/store/StoreProvider';
 import { State } from '../../store';
@@ -130,19 +131,27 @@ function getTagLinkClasses(routeNames: string[]) {
 }
 
 async function launchGame(mode: LaunchMode) {
+    const game = activeGame.value;
+    let linked = false;
+    let launched = false;
     try {
-        await setGameDirIfUnset(activeGame.value);
-        await throwIfNoGameDir(activeGame.value);
+        await setGameDirIfUnset(game);
+        await throwIfNoGameDir(game);
 
         if (mode === LaunchMode.MODDED) {
-            await linkProfileFiles(activeGame.value, profile.value.asImmutableProfile());
+            linked = true;
+            await linkProfileFiles(game, profile.value.asImmutableProfile());
         }
 
         store.commit("openGameRunningModal");
-        await launch(activeGame.value, profile.value, mode);
+        await launch(game, profile.value, mode);
+        launched = true;
     } catch (error) {
         store.commit("closeGameRunningModal");
         store.commit("error/handleError", R2Error.fromThrownValue(error));
+    }
+    if (linked) {
+        void removeLinkedFilesOnGameExit(game, launched ? STARTUP_TIMEOUT_MS : 0);
     }
 }
 

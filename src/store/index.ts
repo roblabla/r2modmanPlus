@@ -14,6 +14,7 @@ import GameManager from '../model/game/GameManager';
 import R2Error from '../model/errors/R2Error';
 import { getModLoaderPackageNames } from '../r2mm/installing/profile_installers/ModLoaderVariantRecord';
 import ManagerSettings from '../r2mm/manager/ManagerSettings';
+import { removeLinkedFilesOnGameExit } from '../r2mm/launching/LinkedFilesCleanup';
 import { SplashModule, State as SplashState } from './modules/SplashModule';
 import { EcosystemUpdateModule, EcosystemUpdateState } from './modules/EcosystemUpdateModule';
 
@@ -79,6 +80,9 @@ export const store = {
             const settings = await ManagerSettings.getSingleton(game);
             commit('setSettings', settings);
             commit('download/setIgnoreCacheVuexOnly', settings.getContext().global?.ignoreCache || false);
+
+            // Files left by a modded start that r2modman stopped watching (closed or crashed meanwhile).
+            void removeLinkedFilesOnGameExit(game, 0);
 
             // Return settings for the new active game. This comes handy
             // when accessing settings before user has selected the game
