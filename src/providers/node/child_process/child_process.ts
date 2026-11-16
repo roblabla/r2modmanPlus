@@ -3,6 +3,7 @@ import { NodeChildProcessImplementation } from './ChildProcessImplementation';
 export type NodeChildProcessProvider = {
     execSync: (path: string, options?: any) => string;
     exec: (path: string, options?: any, callback?: (err: Error) => void) => Promise<void>;
+    execFile: (file: string, args: string[]) => Promise<string>;
     spawnSync: (path: string, args?: string[], options?: object) => string;
 }
 
@@ -22,6 +23,7 @@ export function provideChildProcessImplementation(provider: () => NodeChildProce
 const childProcess: NodeChildProcessProvider = {
     execSync: path => getImplementation().execSync(path),
     exec: (path, options, callback) => getImplementation().exec(path, options, callback),
+    execFile: (file, args) => getImplementation().execFile(file, args),
     spawnSync: (path, args, options) => getImplementation().spawnSync(path, args, options),
 };
 

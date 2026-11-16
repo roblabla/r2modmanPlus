@@ -8,6 +8,10 @@ export function exec(path: string, options: any) {
     return ipcRenderer.invoke('node:child_process:exec', path, options);
 }
 
+export function execFile(file: string, args: string[]) {
+    return ipcRenderer.invoke('node:child_process:execFile', file, args);
+}
+
 export function spawnSync(path: string, args: string[], options: object) {
     return ipcRenderer.sendSync('node:child_process:spawnSync', path, options);
 }

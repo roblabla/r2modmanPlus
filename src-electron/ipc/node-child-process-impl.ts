@@ -17,4 +17,16 @@ export function hookChildProcessIpc(browserWindow: BrowserWindow) {
             });
         })
     })
+
+    ipcMain.handle("node:child_process:execFile", (event, file, args) => {
+        return new Promise((resolve, reject) => {
+            ChildProcess.execFile(file, args, { windowsHide: true, maxBuffer: 16 * 1024 * 1024 }, (err, stdout) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(stdout);
+                }
+            });
+        })
+    })
 }
