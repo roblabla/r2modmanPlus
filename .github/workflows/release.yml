@@ -7,6 +7,8 @@ jobs:
   release:
     name: Release for ${{ matrix.platform }}
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
