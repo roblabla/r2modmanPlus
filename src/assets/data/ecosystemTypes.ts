@@ -75,6 +75,7 @@ export interface R2Modman {
     additionalSearchStrings:  string[];
     dataFolderName:           string;
     distributions:            Distribution[];
+    doorstopTargetAssembly?:  string;
     exeNames:                 string[];
     gameInstanceType:         GameInstanceType;
     gameSelectionDisplayMode: GameSelectionDisplayMode;
@@ -84,6 +85,7 @@ export interface R2Modman {
     packageIndex:             string;
     packageLoader:            Loader;
     relativeFileExclusions:   string[] | null;
+    removeLinkedFilesOnExit?: boolean;
     settingsIdentifier:       string;
     steamFolderName:          string;
 }
@@ -361,6 +363,7 @@ const typeMap: any = {
         { json: "additionalSearchStrings", js: "additionalSearchStrings", typ: a("") },
         { json: "dataFolderName", js: "dataFolderName", typ: "" },
         { json: "distributions", js: "distributions", typ: a(r("Distribution")) },
+        { json: "doorstopTargetAssembly", js: "doorstopTargetAssembly", typ: u(undefined, "") },
         { json: "exeNames", js: "exeNames", typ: a("") },
         { json: "gameInstanceType", js: "gameInstanceType", typ: r("GameInstanceType") },
         { json: "gameSelectionDisplayMode", js: "gameSelectionDisplayMode", typ: r("GameSelectionDisplayMode") },
@@ -370,6 +373,7 @@ const typeMap: any = {
         { json: "packageIndex", js: "packageIndex", typ: "" },
         { json: "packageLoader", js: "packageLoader", typ: r("Loader") },
         { json: "relativeFileExclusions", js: "relativeFileExclusions", typ: u(a(""), null) },
+        { json: "removeLinkedFilesOnExit", js: "removeLinkedFilesOnExit", typ: u(undefined, true) },
         { json: "settingsIdentifier", js: "settingsIdentifier", typ: "" },
         { json: "steamFolderName", js: "steamFolderName", typ: "" },
     ], false),

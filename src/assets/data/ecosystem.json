@@ -37149,7 +37149,7 @@
               "route": "BepInEx/core",
               "isDefaultLocation": false,
               "defaultFileExtensions": [],
-              "trackingMethod": "subdir",
+              "trackingMethod": "state",
               "subRoutes": []
             },
             {
@@ -37176,7 +37176,9 @@
               "subRoutes": []
             }
           ],
-          "relativeFileExclusions": null
+          "relativeFileExclusions": null,
+          "doorstopTargetAssembly": "BepInEx/core/Phasma.Boot.dll",
+          "removeLinkedFilesOnExit": true
         }
       ],
       "thunderstore": {
