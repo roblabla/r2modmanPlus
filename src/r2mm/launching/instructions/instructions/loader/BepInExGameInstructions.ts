@@ -75,7 +75,7 @@ export default class BepInExGameInstructions extends GameInstructionGenerator {
         }
         return {
             moddedParameterList: launchArgs,
-            vanillaParameterList: ['--doorstop-enable', 'false']
+            vanillaParameterList: ['--doorstop-enabled', 'false']
         };
     }
 
