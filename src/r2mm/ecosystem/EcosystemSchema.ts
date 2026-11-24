@@ -47,7 +47,9 @@ async function resolveEcosystemDataUrl(): Promise<string> {
 }
 
 async function getMergedEcosystemPath(): Promise<string> {
-    return path.join(PathResolver.ROOT, "latest-ecosystem-schema.json");
+    // Upstream r2modman shares this data folder and caches its own schema in
+    // latest-ecosystem-schema.json; reading its Last-Modified would get a 304 from our source.
+    return path.join(PathResolver.ROOT, "latest-ecosystem-schema-pleco-parore.json");
 }
 
 function validateSchema(schema: unknown): ThunderstoreEcosystem {

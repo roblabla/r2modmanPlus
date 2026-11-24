@@ -31,7 +31,7 @@ vi.mock('../../../../../src/utils/Common', () => ({
 }));
 
 const TEST_ROOT = 'TEST_ROOT';
-const latestSchemaFilePath = path.join(TEST_ROOT, 'latest-ecosystem-schema.json');
+const latestSchemaFilePath = path.join(TEST_ROOT, 'latest-ecosystem-schema-pleco-parore.json');
 
 function createMinimalSchema(): ThunderstoreEcosystem {
     return {
